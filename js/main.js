@@ -63,7 +63,9 @@ startBtn.forEach((e) => {
         //return to clickable state again after finishing the check
         function click() {
             boxes.forEach(e => {
-                e.style.pointerEvents = "auto";
+                if (!(e.classList.contains("clicked"))) {
+                    e.style.pointerEvents = "auto";
+                }
             });
         }
         
@@ -75,16 +77,23 @@ startBtn.forEach((e) => {
 
                 //on case choosing wrong
                 setTimeout( function () {
-                    boxes[index[0]].style.transform = "rotateY(0deg)"
-                    boxes[index[1]].style.transform = "rotateY(0deg)"
+                    boxes[index[0]].style.transform = "rotateY(0deg)";
+                    boxes[index[1]].style.transform = "rotateY(0deg)";
                     wrong.innerHTML++;
-
+            
                     //if the wrong tries over ten he lost but still playing 
                     if (wrong.innerHTML > 10) {
                         wrong.style.color = "red";
                     }
                 }, 500);
+
+                //back to be clicked again
+        
+                // setTimeout(click, 800);
             } else {
+                boxes[index[1]].classList.add("clicked");
+                boxes[index[0]].classList.add("clicked");
+
                 //if he choose correct
                 audio.play();
                 endGame++;
@@ -129,7 +138,7 @@ startBtn.forEach((e) => {
                     unClick();
                     //go and check if it similar
                     setTimeout(checkSimilarity, 500, arrayOfIndex);
-                    //back to be clicked again
+                    //turn click event again
                     setTimeout(click, 800);
                 }
             }
