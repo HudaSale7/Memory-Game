@@ -1,77 +1,146 @@
+let userInput = document.querySelector(".input input");
+let startBtn = document.querySelectorAll(".btn");
+let layer = document.querySelector(".overlay-start");
 let boxes = document.querySelectorAll(".box");
+let userName = document.querySelector(".user-name");
 let wrong = document.querySelector(".wrong");
+let endLayer = document.querySelector(".overlay-end");
 let endGame = 0;
+let winOrLose = document.querySelector(".winner-loser");
+let cancel = document.querySelector(".cancel");
+let audio = new Audio("audio/zapsplat_multimedia_game_tone_bright_plucked_positive_tone_001_88490.mp3");
 
-function rotate() {
-    boxes.forEach(e => {
-        e.style.transform = "rotateY(0deg)";
-    });
-}
-
-setTimeout(rotate, 2000);
-
-function unClick() {
-    boxes.forEach(e => {
-        e.style.pointerEvents= "none";
-    });
-}
-
-function click() {
-    boxes.forEach(e => {
-        e.style.pointerEvents= "auto";
-    });
-}
-
-function swapIndex(indexOne, indexTwo) {
-    let temp = boxes[indexOne].innerHTML;
-    boxes[indexOne].innerHTML = boxes[indexTwo].innerHTML;
-    boxes[indexTwo].innerHTML = temp;
-}
-
-for (let i = 0; i < 20; i++) {
-    swapIndex(Math.floor(Math.random() * boxes.length), Math.floor(Math.random() * boxes.length));
-}
-
-function checkSimilarity(index) {
-    if (boxes[index[0]].innerHTML !== boxes[index[1]].innerHTML) {
-
-        boxes[index[0]].style.transform = "rotateY(0deg)";
-        boxes[index[1]].style.transform = "rotateY(0deg)";
-        wrong.innerHTML++;
-    } else {
-        endGame++;
-        if (endGame === 10) {
-            console.log("done");
+// add event to bottom start and play again
+startBtn.forEach((e) => {
+    e.addEventListener("click", (e) => {
+        if (userInput.value) {
+            userName.innerHTML = userInput.value;
         }
-    }
-    boxes[index[1]].removeAttribute("state");
-    boxes[index[0]].removeAttribute("state");
-}
+        //in case he want to play again the wrong tries back to zero
+        wrong.innerHTML = "0";
+        wrong.style.color = "black";
 
-boxes.forEach(element => {
-    element.addEventListener("click", (e) => {
+        //hide the start and end layer
+        layer.style.display = "none";
+        endLayer.style.display = "none";
+
+        //make the element arranged in random every time he finish
+        function swapIndex(indexOne, indexTwo) {
+            let temp = boxes[indexOne].innerHTML;
+            boxes[indexOne].innerHTML = boxes[indexTwo].innerHTML;
+            boxes[indexTwo].innerHTML = temp;
+        }
+
+        for (let i = 0; i < 20; i++) {
+            swapIndex(Math.floor(Math.random() * boxes.length), Math.floor(Math.random() * boxes.length));
+        }
+
+        //rotate to the back for a little bit
+        rotate();
+
+        //back to play
+        setTimeout(rotateBack, 2000);
+
+        function rotate() {
+            boxes.forEach(e => {
+                e.style.transform = "rotateY(180deg)";
+            });
+        }
+
+        function rotateBack() {
+            boxes.forEach(e => {
+                e.style.transform = "rotateY(0deg)";
+            });
+        }
+
+        //when he click on two card make the rest of them unclickable
+        function unClick() {
+            boxes.forEach(e => {
+                e.style.pointerEvents = "none";
+            });
+        }
+
+        //return to clickable state again after finishing the check
+        function click() {
+            boxes.forEach(e => {
+                e.style.pointerEvents = "auto";
+            });
+        }
         
-        let count = 0;
-        let arrayOfIndex = [];
-        e.currentTarget.style.transform = "rotateY(180deg)";
-        e.currentTarget.setAttribute("state", "click");
+        // if he choose right or wrong
+        function checkSimilarity(index) {
 
-        boxes.forEach((element, index) => {
-            if (element.getAttribute("state") == "click") {
-                count++;
-                arrayOfIndex.push(index);
+            //check on them by its index
+            if (boxes[index[0]].innerHTML !== boxes[index[1]].innerHTML) {
+
+                //on case choosing wrong
+                setTimeout( function () {
+                    boxes[index[0]].style.transform = "rotateY(0deg)"
+                    boxes[index[1]].style.transform = "rotateY(0deg)"
+                    wrong.innerHTML++;
+
+                    //if the wrong tries over ten he lost but still playing 
+                    if (wrong.innerHTML > 10) {
+                        wrong.style.color = "red";
+                    }
+                }, 500);
+            } else {
+                //if he choose correct
+                audio.play();
+                endGame++;
+                if (endGame === 10) {
+                    //when he finish the game
+                    endLayer.style.display = "flex";
+                    if (wrong.innerHTML > 10) {
+                        winOrLose.innerHTML = "YOU LOST THE GAME ^^";
+                    } else {
+                        winOrLose.innerHTML = "YOU WON THE GAME ^^";
+                    }
+                }
             }
-        })
-        if (count === 2) {
-            unClick();
-            setTimeout(checkSimilarity, 1000, arrayOfIndex);
-            setTimeout(click, 800);
+
+            //remove the attribute anyway to continue
+            boxes[index[1]].removeAttribute("state");
+            boxes[index[0]].removeAttribute("state");
         }
-    }
-    )
+
+        //adding click event on every card
+        boxes.forEach(element => {
+            element.addEventListener("click", (e) => {
+
+                //to count the number of clicked card
+                let count = 0;
+                //array to carry the index of clicked card
+                let arrayOfIndex = [];
+
+                //on click flip the card and add attribute to it
+                e.currentTarget.style.transform = "rotateY(180deg)";
+                e.currentTarget.setAttribute("state", "click");
+
+                //check how many card has an attribute state
+                boxes.forEach((element, index) => {
+                    if (element.getAttribute("state") == "click") {
+                        count++;
+                        arrayOfIndex.push(index);
+                    }
+                })
+                if (count === 2) {
+                    //prevent click event on any element
+                    unClick();
+                    //go and check if it similar
+                    setTimeout(checkSimilarity, 500, arrayOfIndex);
+                    //back to be clicked again
+                    setTimeout(click, 800);
+                }
+            }
+            )
+        });
+    })
 });
-
-
+//when he finish the game ask if he want to cancel the game 
+cancel.onclick = function () {
+    endLayer.style.display = "none";
+}
 
 
 

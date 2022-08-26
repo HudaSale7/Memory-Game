@@ -7,6 +7,83 @@
 body {
   position: relative;
   perspective: 600px;
+  height: 100vh;
+}
+
+.overlay-start {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.overlay-start .content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  background-color: #3B9AE1;
+  padding: 30px;
+  gap: 20px;
+}
+.overlay-start .content .input input {
+  height: 30px;
+  width: 200px;
+  padding-left: 5px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+.overlay-start .content .btn {
+  color: white;
+  background-color: fuchsia;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.overlay-end {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  display: none;
+}
+.overlay-end .content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  background-color: #3B9AE1;
+  padding: 30px;
+  gap: 20px;
+}
+.overlay-end .winner-loser {
+  font-size: 23px;
+  color: white;
+  letter-spacing: 2px;
+}
+.overlay-end .option {
+  display: flex;
+  gap: 20px;
+}
+.overlay-end .option div {
+  color: white;
+  background-color: fuchsia;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .container {
@@ -44,7 +121,6 @@ body {
   cursor: pointer;
   transform-style: preserve-3d;
   transition: transform 0.8s;
-  transform: rotateY(180deg);
 }
 .content .box .front {
   position: absolute;
