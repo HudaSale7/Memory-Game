@@ -1,6 +1,6 @@
 # Memory-Game
 - Memory game written in JavaScript language.
-- The game starts with 20 box with different images each image appears in 2 boxes the player should match identical boxes
+- The game starts with 20 box with different images each image appears in 2 boxes the player should match identical boxes.
 ## ScreenShots from Game
 - Starting of Game
 
