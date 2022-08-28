@@ -1,3 +1,6 @@
+//////////////////////////////// Start //////////////////////////////////////////
+
+//global variable
 let userInput = document.querySelector(".input input");
 let startBtn = document.querySelectorAll(".btn");
 let layer = document.querySelector(".overlay-start");
@@ -12,14 +15,13 @@ let audio = new Audio(
   "audio/zapsplat_multimedia_game_tone_bright_plucked_positive_tone_001_88490.mp3"
 );
 
-
 // add event to bottom start and play again
 startBtn.forEach((e) => {
   e.addEventListener("click", (e) => {
     if (userInput.value) {
       userName.innerHTML = userInput.value;
-      }
-      
+    }
+
     //in case he want to play again the wrong tries back to zero
     wrong.innerHTML = "0";
     wrong.style.color = "black";
@@ -28,7 +30,6 @@ startBtn.forEach((e) => {
     layer.style.display = "none";
     endLayer.style.display = "none";
 
-      
     //make the element arranged in random every time he finish
     for (let i = 0; i < 20; i++) {
       swapIndex(
@@ -43,7 +44,6 @@ startBtn.forEach((e) => {
     //back to play
     setTimeout(rotateBack, 2000);
 
-      
     //adding click event on every card
     boxes.forEach((element) => {
       element.addEventListener("click", (e) => {
@@ -76,31 +76,26 @@ startBtn.forEach((e) => {
   });
 });
 
-
-
+//swap function
 function swapIndex(indexOne, indexTwo) {
   let temp = boxes[indexOne].innerHTML;
   boxes[indexOne].innerHTML = boxes[indexTwo].innerHTML;
   boxes[indexTwo].innerHTML = temp;
 }
 
-
-
+//rotate to back img
 function rotate() {
   boxes.forEach((e) => {
     e.style.transform = "rotateY(180deg)";
   });
 }
 
-
-
+//rotate to front img
 function rotateBack() {
   boxes.forEach((e) => {
     e.style.transform = "rotateY(0deg)";
   });
 }
-
-
 
 //when he click on two card make the rest of them unclickable
 function unClick() {
@@ -108,8 +103,6 @@ function unClick() {
     e.style.pointerEvents = "none";
   });
 }
-
-
 
 //return to clickable state again after finishing the check
 function click() {
@@ -119,8 +112,6 @@ function click() {
     }
   });
 }
-
-
 
 // if he choose right or wrong
 function checkSimilarity(index) {
@@ -137,7 +128,6 @@ function checkSimilarity(index) {
         wrong.style.color = "red";
       }
     }, 500);
-
   } else {
     boxes[index[1]].classList.add("clicked");
     boxes[index[0]].classList.add("clicked");
@@ -161,9 +151,9 @@ function checkSimilarity(index) {
   boxes[index[0]].removeAttribute("state");
 }
 
-
-
 //when he finish the game ask if he want to cancel the game
 cancel.onclick = function () {
   endLayer.style.display = "none";
 };
+
+//////////////////////////////// End //////////////////////////////////////////
