@@ -15,6 +15,9 @@ let audio = new Audio(
   "audio/zapsplat_multimedia_game_tone_bright_plucked_positive_tone_001_88490.mp3"
 );
 
+//////////////////////////////////////////////////////////
+
+
 // add event to bottom start and play again
 startBtn.forEach((e) => {
   e.addEventListener("click", (e) => {
@@ -26,6 +29,7 @@ startBtn.forEach((e) => {
     wrong.innerHTML = "0";
     wrong.style.color = "black";
 
+      
     //hide the start and end layer
     layer.style.display = "none";
     endLayer.style.display = "none";
@@ -44,6 +48,7 @@ startBtn.forEach((e) => {
     //back to play
     setTimeout(rotateBack, 2000);
 
+      
     //adding click event on every card
     boxes.forEach((element) => {
       element.addEventListener("click", (e) => {
@@ -76,12 +81,16 @@ startBtn.forEach((e) => {
   });
 });
 
+//////////////////////////////////////////////////////////
+
 //swap function
 function swapIndex(indexOne, indexTwo) {
   let temp = boxes[indexOne].innerHTML;
   boxes[indexOne].innerHTML = boxes[indexTwo].innerHTML;
   boxes[indexTwo].innerHTML = temp;
 }
+
+//////////////////////////////////////////////////////////
 
 //rotate to back img
 function rotate() {
@@ -90,6 +99,8 @@ function rotate() {
   });
 }
 
+//////////////////////////////////////////////////////////
+
 //rotate to front img
 function rotateBack() {
   boxes.forEach((e) => {
@@ -97,12 +108,18 @@ function rotateBack() {
   });
 }
 
+//////////////////////////////////////////////////////////
+
+
 //when he click on two card make the rest of them unclickable
 function unClick() {
   boxes.forEach((e) => {
     e.style.pointerEvents = "none";
   });
 }
+
+//////////////////////////////////////////////////////////
+
 
 //return to clickable state again after finishing the check
 function click() {
@@ -112,6 +129,9 @@ function click() {
     }
   });
 }
+
+//////////////////////////////////////////////////////////
+
 
 // if he choose right or wrong
 function checkSimilarity(index) {
@@ -128,7 +148,9 @@ function checkSimilarity(index) {
         wrong.style.color = "red";
       }
     }, 500);
-  } else {
+  }
+  
+  else {
     boxes[index[1]].classList.add("clicked");
     boxes[index[0]].classList.add("clicked");
 
@@ -150,6 +172,8 @@ function checkSimilarity(index) {
   boxes[index[1]].removeAttribute("state");
   boxes[index[0]].removeAttribute("state");
 }
+
+
 
 //when he finish the game ask if he want to cancel the game
 cancel.onclick = function () {
